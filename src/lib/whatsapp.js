@@ -1,9 +1,5 @@
-// Central WhatsApp ordering config. The number is read from an environment
-// variable (or, once connected, from the store_settings table) rather than
-// being hard-coded across components.
-const ENV_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '923001234567'
-
-let storeNumber = ENV_NUMBER
+// The number is synchronized from the store_settings row by the storefront layout.
+let storeNumber = ''
 
 export function setStoreWhatsAppNumber(number) {
   if (number) storeNumber = number.replace(/\D/g, '')
