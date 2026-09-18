@@ -12,7 +12,7 @@ const navItems = [
   { label: 'Categories', to: '/categories' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },
-  { label: 'Admin', to: '/admin' },
+  // { label: 'Admin', to: '/admin' },
 ]
 
 export function Header() {
