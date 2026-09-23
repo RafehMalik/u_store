@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
-import { MessageCircle } from 'lucide-react'
 import { Badge } from './ui/Badge'
 import { formatPrice, cn } from '../lib/utils'
-import { getWhatsAppOrderUrl } from '../lib/whatsapp'
+import { useCart } from '../contexts/CartContext'
+import { Button } from './ui/Button'
 
 export function ProductCard({ product, className }) {
-  const url = getWhatsAppOrderUrl({ ...product, priceLabel: formatPrice(product.price) })
+  const { addToCart } = useCart()
   const image = product.images?.[0]
 
   return (
@@ -43,15 +43,10 @@ export function ProductCard({ product, className }) {
           >
             View details
           </Link>
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Order ${product.name} on WhatsApp`}
-            className="flex items-center justify-center rounded-lg bg-whatsapp p-2.5 text-white hover:brightness-95 focus-ring"
-          >
-            <MessageCircle className="h-4.5 w-4.5" />
-          </a>
+          <Button type="button" size="sm" className="flex-1" disabled={!product.is_available} onClick={() => addToCart(product)}>
+            Add to cart
+          </Button>
+          {/* WhatsApp order button disabled while cart ordering is used. */}
         </div>
       </div>
     </div>

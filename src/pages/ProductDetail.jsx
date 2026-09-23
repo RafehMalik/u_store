@@ -2,17 +2,19 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { ChevronLeft, CheckCircle2, XCircle } from 'lucide-react'
 import { useProduct, useProducts } from '../hooks/useProducts'
-import { WhatsAppOrderButton } from '../components/WhatsAppOrderButton'
 import { ProductCard } from '../components/ProductCard'
 import { Badge } from '../components/ui/Badge'
 import { formatPrice, cn } from '../lib/utils'
 import { ErrorState } from '../components/States'
+import { useCart } from '../contexts/CartContext'
+import { Button } from '../components/ui/Button'
 
 export default function ProductDetail() {
   const { slug } = useParams()
   const { product, loading, error } = useProduct(slug)
   const [activeImage, setActiveImage] = useState(0)
   const { products: related } = useProducts({ categorySlug: product?.category?.slug })
+  const { addToCart } = useCart()
 
   if (loading) {
     return (
@@ -121,7 +123,8 @@ export default function ProductDetail() {
           )}
 
           <div className="mt-8">
-            <WhatsAppOrderButton product={product} className="w-full sm:w-auto" />
+            <Button className="mb-3 w-full sm:w-auto" disabled={!product.is_available} onClick={() => addToCart(product)}>Add to cart</Button>
+            {/* WhatsApp order button disabled while cart ordering is used. */}
             <p className="mt-2 text-xs text-muted-fg">Opens WhatsApp with your order details pre-filled — mention colour/size if applicable.</p>
           </div>
         </div>

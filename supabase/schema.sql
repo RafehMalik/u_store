@@ -30,11 +30,14 @@ create table if not exists products (
   images       text[] not null default '{}',
   sizes        text[] default '{}',
   colors       text[] default '{}',
+  order_questions jsonb not null default '[]'::jsonb,
   is_featured  boolean not null default false,
   is_available boolean not null default true,
   created_at   timestamptz not null default now(),
   updated_at   timestamptz not null default now()
 );
+
+alter table products add column if not exists order_questions jsonb not null default '[]'::jsonb;
 
 create index if not exists products_category_id_idx on products (category_id);
 create index if not exists products_is_available_idx on products (is_available);

@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
-import { Search, Menu, House } from 'lucide-react'
+import { Search, Menu, House, ShoppingCart } from 'lucide-react'
 import { ThemeToggle } from './ThemeToggle'
 import { MobileMenu } from './MobileMenu'
 import { cn } from '../../lib/utils'
 import { useStoreSettings } from '../../hooks/useStoreSettings'
+import { useCart } from '../../contexts/CartContext'
 
 const navItems = [
   { label: 'Home', to: '/' },
@@ -21,6 +22,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
+  const { itemCount } = useCart()
 
   function submitSearch(e) {
     e.preventDefault()
@@ -83,6 +85,11 @@ export function Header() {
           </div>
 
           <ThemeToggle />
+
+          <button onClick={() => navigate('/cart')} aria-label={`Open cart${itemCount ? `, ${itemCount} items` : ''}`} className="relative flex h-10 w-10 items-center justify-center rounded-lg border border-border hover:bg-muted focus-ring">
+            <ShoppingCart className="h-5 w-5" />
+            {itemCount > 0 && <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-[10px] text-primary-fg">{itemCount}</span>}
+          </button>
 
           <button
             onClick={() => setMenuOpen(true)}
